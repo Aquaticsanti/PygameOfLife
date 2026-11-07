@@ -11,7 +11,7 @@ clock = pygame.time.Clock()
 running = True
 defaultFontBig = pygame.font.Font(size=70)
 defaultFontSmol = pygame.font.Font(size=30)
-
+runningSim = False
 class Cell:
     def __init__(self, state="dead", flip=False):
         self.state = state
@@ -56,14 +56,23 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
-            pass
+            if runningSimButtonRect.collidepoint(event.pos):
+                if runningSim:
+                    runningSim = False
+                else:
+                    runningSim = True
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("black")
 
     drawGrid()
     screen.blit(defaultFontBig.render("Pygame of Life", antialias=True ,color="white"), (145, 30))
     screen.blit(defaultFontSmol.render("Made by @Aquaticsanti", antialias=True ,color="white"), (202, 85))
-    
+    runningSimButtonRect = pygame.Rect(280, 540, 80, 35)
+    pygame.draw.rect(screen, "white", runningSimButtonRect, 3, 15)
+    if runningSim:
+        screen.blit(defaultFontSmol.render(f"Pause", antialias=True ,color="white"), (290, 547.5))
+    else:
+        screen.blit(defaultFontSmol.render(f"Play", antialias=True ,color="white"), (297.5, 547.5))
     # flip() the display to put your work on screen
     pygame.display.flip()
     clock.tick(60)  # limits FPS to 60
