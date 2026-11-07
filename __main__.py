@@ -55,7 +55,6 @@ def drawGrid():
                 pygame.draw.rect(screen, "white", rect, 0)
             else:
                 pygame.draw.rect(screen, "white", rect, 1)
-            screen.blit(defaultFontSmol.render(f"{i}", antialias=True ,color="white"), (x, y))
 
 
 
