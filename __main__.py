@@ -1,6 +1,7 @@
 # Example file showing a basic pygame "game loop"
 import pygame
-import numpy
+import numpy as np
+
 
 # pygame setup
 pygame.init()
