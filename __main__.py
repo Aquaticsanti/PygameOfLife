@@ -6,7 +6,7 @@ import numpy as np
 # pygame setup
 pygame.init()
 pygame.font.init()
-screen = pygame.display.set_mode((1280, 720))
+screen = pygame.display.set_mode((640, 720))
 clock = pygame.time.Clock()
 running = True
 defaultFontBig = pygame.font.Font(size=70)
@@ -36,13 +36,16 @@ grid = np.full((10, 10), Cell())
 # Posted by theshubhagrwl, modified by community & me (Aquaticsanti). See post 'Timeline' for change history
 # Retrieved 2026-11-07, License - CC BY-SA 4.0
 def drawGrid():
-    xStart = 440
+    xStart = 120
     yStart = 120
     blockSize = 40 # Set the size of the grid block
+    i = 0
     for x in range(xStart, 400+xStart, blockSize):
         for y in range(yStart, 400+yStart, blockSize):
+            i += 1
             rect = pygame.Rect(x, y, blockSize, blockSize)
             pygame.draw.rect(screen, "white", rect, 1)
+            screen.blit(defaultFontSmol.render(f"{i}", antialias=True ,color="white"), (x, y))
 
 
 
@@ -52,14 +55,15 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            pass
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("black")
+
     drawGrid()
-    screen.blit(defaultFontBig.render("Pygame of Life", antialias=True ,color="white"), (465, 30))
-    screen.blit(defaultFontSmol.render("Made by @Aquaticsanti", antialias=True ,color="white"), (515, 85))
-    # RENDER YOUR GAME HERE
-
-
+    screen.blit(defaultFontBig.render("Pygame of Life", antialias=True ,color="white"), (145, 30))
+    screen.blit(defaultFontSmol.render("Made by @Aquaticsanti", antialias=True ,color="white"), (202, 85))
+    
     # flip() the display to put your work on screen
     pygame.display.flip()
     clock.tick(60)  # limits FPS to 60
