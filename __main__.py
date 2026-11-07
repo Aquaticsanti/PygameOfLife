@@ -14,19 +14,16 @@ defaultFontSmol = pygame.font.Font(size=30)
 runningSim = False
 fps = 10
 class Cell:
-    def __init__(self, state="dead", flip=False, rect=None):
+    def __init__(self, state="dead", flipTo=None, rect=None):
         self.state = state
-        self.flip = flip
+        self.flipTo = flipTo
         self.rect = rect
     def flipThis(self):
         """Flips the cell and sets self.flip back to false.
         """
-        if self.flip:
-            if self.state == "dead":
-                self.state = "alive"
-            else:
-                self.state = "dead"
-            self.flip = False
+        if self.flipTo is not None:
+            self.state = self.flipTo
+            self.flipTo = None
     def queueFlip(self):
         """Sets self.flip to True. Kinda unnecessary but it makes the code a bit more readable.
         """
@@ -96,6 +93,38 @@ while running:
     runningSimButtonRect = pygame.Rect(280, 540, 80, 35)
     pygame.draw.rect(screen, "white", runningSimButtonRect, 3, 15)
     if runningSim:
+        for x in range(10):
+            for y in range(10):
+                neighbours = [(x-1, y-1), (x-1, y), (x-1, y+1),
+                              (x, y-1),             (x, y+1),
+                              (x+1, y-1), (x+1, y), (x+1, y+1)]
+                for i, j in enumerate(neighbours):
+                    if 0 <= j[0] < 10 and 0 <= j[1] < 10:
+                        pass
+                    else:
+                        neighbours[i] = None
+                realNeighbours = [] # AKA all that aren't none
+                for i in neighbours:
+                    if i is not None:
+                        realNeighbours.append(i)
+                for i, j in enumerate(realNeighbours):
+                    realNeighbours[i] = grid[*j].state
+                
+                # Now the conditions (from https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life#Rules)
+                if realNeighbours.count("alive") < 2: # Rule 1
+                    grid[x, y].flipTo = "dead"
+                    continue
+                elif realNeighbours.count("alive") == 2: # Rule 2
+                    pass
+                elif realNeighbours.count("alive") > 3: # Rule 3
+                    grid[x, y].flipTo = "dead"
+                    continue
+                elif realNeighbours.count("alive") == 3: # Rule 4
+                    grid[x, y].flipTo = "alive"
+                    continue
+        for x in range(10):
+            for y in range(10):
+                grid[x, y].flipThis()
         screen.blit(defaultFontSmol.render(f"Pause", antialias=True ,color="white"), (290, 547.5))
     else:
         screen.blit(defaultFontSmol.render(f"Play", antialias=True ,color="white"), (297.5, 547.5))
