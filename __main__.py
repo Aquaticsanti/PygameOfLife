@@ -31,7 +31,10 @@ class Cell:
         """
         self.flip = True
 
-grid = np.full((10, 10), Cell())
+grid = np.empty((10, 10), dtype=object)
+for x in range(10):
+    for y in range(10):
+        grid[x, y] = Cell()
 
 # Source - https://stackoverflow.com/a/61007670
 # Posted by theshubhagrwl, modified by community & me (Aquaticsanti). See post 'Timeline' for change history
