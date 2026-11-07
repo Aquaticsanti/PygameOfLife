@@ -14,19 +14,20 @@ defaultFontSmol = pygame.font.Font(size=30)
 runningSim = False
 fps = 10
 class Cell:
-    def __init__(self, state="dead", flip=False):
+    def __init__(self, state="dead", flip=False, rect=None):
         self.state = state
         self.flip = flip
-    def flipThis():
+        self.rect = rect
+    def flipThis(self):
         """Flips the cell and sets self.flip back to false.
         """
         if self.flip:
             if self.state == "dead":
-                self.state == "alive"
+                self.state = "alive"
             else:
                 self.state = "dead"
             self.flip = False
-    def queueFlip():
+    def queueFlip(self):
         """Sets self.flip to True. Kinda unnecessary but it makes the code a bit more readable.
         """
         self.flip = True
@@ -36,6 +37,7 @@ for x in range(10):
     for y in range(10):
         grid[x, y] = Cell()
 
+gridRect = pygame.Rect(120, 120, 520, 520)
 # Source - https://stackoverflow.com/a/61007670
 # Posted by theshubhagrwl, modified by community & me (Aquaticsanti). See post 'Timeline' for change history
 # Retrieved 2026-11-07, License - CC BY-SA 4.0
@@ -43,12 +45,16 @@ def drawGrid():
     xStart = 120
     yStart = 120
     blockSize = 40 # Set the size of the grid block
-    i = 0
-    for x in range(xStart, 400+xStart, blockSize):
-        for y in range(yStart, 400+yStart, blockSize):
+    i = -1
+    for countX, x in enumerate(range(xStart, 400+xStart, blockSize)):
+        for countY, y in enumerate(range(yStart, 400+yStart, blockSize)):
             i += 1
             rect = pygame.Rect(x, y, blockSize, blockSize)
-            pygame.draw.rect(screen, "white", rect, 1)
+            grid[countX, countY].rect = rect
+            if grid[countX, countY].state == "alive":
+                pygame.draw.rect(screen, "white", rect, 0)
+            else:
+                pygame.draw.rect(screen, "white", rect, 1)
             screen.blit(defaultFontSmol.render(f"{i}", antialias=True ,color="white"), (x, y))
 
 
@@ -73,6 +79,15 @@ while running:
                 fps -= 1
                 if fps < 1:
                     fps += 1
+            elif gridRect.collidepoint(event.pos):
+                for element in grid.flat:
+                    if element.rect.collidepoint(event.pos):
+                        if element.state == "alive":
+                            element.state = "dead"
+                        else:
+                            element.state = "alive"
+                        break
+
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("black")
 
