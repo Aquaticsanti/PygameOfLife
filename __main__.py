@@ -12,6 +12,7 @@ running = True
 defaultFontBig = pygame.font.Font(size=70)
 defaultFontSmol = pygame.font.Font(size=30)
 runningSim = False
+fps = 10
 class Cell:
     def __init__(self, state="dead", flip=False):
         self.state = state
@@ -61,6 +62,14 @@ while running:
                     runningSim = False
                 else:
                     runningSim = True
+            elif plusFPSrect.collidepoint(event.pos):
+                fps += 1
+                if fps > 60:
+                    fps -= 1
+            elif minusFPSrect.collidepoint(event.pos):
+                fps -= 1
+                if fps < 1:
+                    fps += 1
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("black")
 
@@ -73,8 +82,17 @@ while running:
         screen.blit(defaultFontSmol.render(f"Pause", antialias=True ,color="white"), (290, 547.5))
     else:
         screen.blit(defaultFontSmol.render(f"Play", antialias=True ,color="white"), (297.5, 547.5))
+    screen.blit(defaultFontSmol.render(f"FPS: {fps}", antialias=True ,color="white"), (260, 588))
+    
+    plusFPSrect = pygame.Rect(340, 587, 20, 20)
+    pygame.draw.rect(screen, "white", plusFPSrect, 2, 5)
+    screen.blit(defaultFontSmol.render(f"+", antialias=True ,color="white"), (344, 585))
+
+    minusFPSrect = pygame.Rect(365, 587, 20, 20)
+    pygame.draw.rect(screen, "white", minusFPSrect, 2, 5)
+    screen.blit(defaultFontSmol.render(f"-", antialias=True ,color="white"), (371, 586))
     # flip() the display to put your work on screen
     pygame.display.flip()
-    clock.tick(60)  # limits FPS to 60
+    clock.tick(fps)  # limits FPS to 60
 
 pygame.quit()
