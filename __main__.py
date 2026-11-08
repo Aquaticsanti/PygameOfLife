@@ -1,4 +1,3 @@
-# Example file showing a basic pygame "game loop"
 import pygame
 import numpy as np
 
@@ -133,10 +132,13 @@ while running:
     screen.fill("black")
 
     drawGrid()
-    screen.blit(defaultFontBig.render("Pygame of Life", antialias=True ,color="white"), (145, 30))
-    screen.blit(defaultFontSmol.render("Made by @Aquaticsanti", antialias=True ,color="white"), (202, 85))
+    screen.blit(defaultFontBig.render("Pygame of Life", antialias=True, color="white"), (145, 30))
+    screen.blit(defaultFontSmol.render("Made by @Aquaticsanti", antialias=True, color="white"), (202, 85))
     runningSimButtonRect = pygame.Rect(280, 540, 80, 35)
-    pygame.draw.rect(screen, "white", runningSimButtonRect, 3, 15)
+    if runningSimButtonRect.collidepoint(pygame.mouse.get_pos()):
+        pygame.draw.rect(screen, "white", runningSimButtonRect, 0, 15)
+    else:
+        pygame.draw.rect(screen, "white", runningSimButtonRect, 3, 15)
     if runningSim:
         for x in range(size):
             for y in range(size):
@@ -170,37 +172,71 @@ while running:
         for x in range(size):
             for y in range(size):
                 grid[x, y].flipThis()
-        screen.blit(defaultFontSmol.render(f"Pause", antialias=True ,color="white"), (290, 547.5))
+        if runningSimButtonRect.collidepoint(pygame.mouse.get_pos()):
+            screen.blit(defaultFontSmol.render(f"Pause", antialias=True, color="black"), (290, 547.5))
+        else:
+            screen.blit(defaultFontSmol.render(f"Pause", antialias=True, color="white"), (290, 547.5))
     else:
-        screen.blit(defaultFontSmol.render(f"Play", antialias=True ,color="white"), (297.5, 547.5))
+        if runningSimButtonRect.collidepoint(pygame.mouse.get_pos()):
+            screen.blit(defaultFontSmol.render(f"Play", antialias=True, color="black"), (297.5, 547.5))
+        else:
+            screen.blit(defaultFontSmol.render(f"Play", antialias=True, color="white"), (297.5, 547.5))
+        
 
-    screen.blit(defaultFontSmol.render(f"FPS: {fps}", antialias=True ,color="white"), (180, 588))
+    screen.blit(defaultFontSmol.render(f"FPS: {fps}", antialias=True, color="white"), (180, 588))
     
     plusFPSrect = pygame.Rect(260, 587, 20, 20)
-    pygame.draw.rect(screen, "white", plusFPSrect, 2, 5)
-    screen.blit(defaultFontSmol.render(f"+", antialias=True ,color="white"), (264, 585))
+    if plusFPSrect.collidepoint(pygame.mouse.get_pos()):
+        pygame.draw.rect(screen, "white", plusFPSrect, 0, 5)
+        screen.blit(defaultFontSmol.render(f"+", antialias=True, color="black"), (264, 585))
+    else:
+        pygame.draw.rect(screen, "white", plusFPSrect, 2, 5)
+        screen.blit(defaultFontSmol.render(f"+", antialias=True, color="white"), (264, 585))
+    
 
     minusFPSrect = pygame.Rect(285, 587, 20, 20)
-    pygame.draw.rect(screen, "white", minusFPSrect, 2, 5)
-    screen.blit(defaultFontSmol.render(f"-", antialias=True ,color="white"), (291, 586))
+    if minusFPSrect.collidepoint(pygame.mouse.get_pos()):
+        pygame.draw.rect(screen, "white", minusFPSrect, 0, 5)
+        screen.blit(defaultFontSmol.render(f"-", antialias=True, color="black"), (291, 586))
+    else:
+        pygame.draw.rect(screen, "white", minusFPSrect, 2, 5)
+        screen.blit(defaultFontSmol.render(f"-", antialias=True, color="white"), (291, 586))
 
-    screen.blit(defaultFontSmol.render(f"Size: {size}", antialias=True ,color="white"), (340, 588))
+    screen.blit(defaultFontSmol.render(f"Size: {size}", antialias=True, color="white"), (340, 588))
         
     plusSizeRect = pygame.Rect(425, 587, 20, 20)
     pygame.draw.rect(screen, "white", plusSizeRect, 2, 5)
-    screen.blit(defaultFontSmol.render(f"+", antialias=True ,color="white"), (429, 585))
-
+    screen.blit(defaultFontSmol.render(f"+", antialias=True, color="white"), (429, 585))
+    if plusSizeRect.collidepoint(pygame.mouse.get_pos()):
+        pygame.draw.rect(screen, "white", plusSizeRect, 0, 5)
+        screen.blit(defaultFontSmol.render(f"+", antialias=True, color="black"), (429, 585))
+    else:
+        pygame.draw.rect(screen, "white", plusSizeRect, 2, 5)
+        screen.blit(defaultFontSmol.render(f"+", antialias=True, color="white"), (429, 585))
+    
     minusSizeRect = pygame.Rect(450, 587, 20, 20)
-    pygame.draw.rect(screen, "white", minusSizeRect, 2, 5)
-    screen.blit(defaultFontSmol.render(f"-", antialias=True ,color="white"), (456, 586))
+    if minusSizeRect.collidepoint(pygame.mouse.get_pos()):
+        pygame.draw.rect(screen, "white", minusSizeRect, 0, 5)
+        screen.blit(defaultFontSmol.render(f"-", antialias=True, color="black"), (456, 586))
+    else:
+        pygame.draw.rect(screen, "white", minusSizeRect, 2, 5)
+        screen.blit(defaultFontSmol.render(f"-", antialias=True, color="white"), (456, 586))
 
     randomizeRect = pygame.Rect(235, 620, 175, 35)
-    pygame.draw.rect(screen, "white", randomizeRect, 3, 15)
-    screen.blit(defaultFontSmol.render(f"Randomize grid", antialias=True ,color="white"), (245, 627.5))
+    if randomizeRect.collidepoint(pygame.mouse.get_pos()):
+        pygame.draw.rect(screen, "white", randomizeRect, 0, 15)
+        screen.blit(defaultFontSmol.render(f"Randomize grid", antialias=True, color="black"), (245, 627.5))
+    else:
+        pygame.draw.rect(screen, "white", randomizeRect, 3, 15)
+        screen.blit(defaultFontSmol.render(f"Randomize grid", antialias=True, color="white"), (245, 627.5))
 
     clearRect = pygame.Rect(257, 662, 132.5, 35)
-    pygame.draw.rect(screen, "white", clearRect, 3, 15)
-    screen.blit(defaultFontSmol.render(f"Clear grid", antialias=True ,color="white"), (273, 670))
+    if clearRect.collidepoint(pygame.mouse.get_pos()):
+        pygame.draw.rect(screen, "white", clearRect, 0, 15)
+        screen.blit(defaultFontSmol.render(f"Clear grid", antialias=True, color="black"), (273, 670))
+    else:
+        pygame.draw.rect(screen, "white", clearRect, 3, 15)
+        screen.blit(defaultFontSmol.render(f"Clear grid", antialias=True, color="white"), (273, 670))
     # flip() the display to put your work on screen
     pygame.display.flip()
     clock.tick(fps)  # limits FPS to 60
