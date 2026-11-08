@@ -34,7 +34,7 @@ for x in range(10):
     for y in range(10):
         grid[x, y] = Cell()
 
-gridRect = pygame.Rect(120, 120, 520, 520)
+gridRect = pygame.Rect(120, 120, 400, 400)
 # Source - https://stackoverflow.com/a/61007670
 # Posted by theshubhagrwl, modified by community & me (Aquaticsanti). See post 'Timeline' for change history
 # Retrieved 2026-11-07, License - CC BY-SA 4.0
@@ -83,6 +83,22 @@ while running:
                         else:
                             element.state = "alive"
                         break
+            elif randomizeRect.collidepoint(event.pos):
+                runningSim = False
+                x = np.random.randint(100)
+                grid = np.empty((10, 10), dtype=object).flatten()
+                for i, _ in enumerate(grid):
+                    grid[i] = Cell()
+                for i in range(x):
+                    grid[i].state = "alive"
+                np.random.shuffle(grid)
+                grid = grid.reshape((10, 10))
+            elif clearRect.collidepoint(event.pos):
+                runningSim = False
+                grid = np.empty((10, 10), dtype=object)
+                for x in range(10):
+                    for y in range(10):
+                        grid[x, y] = Cell()
 
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("black")
@@ -137,6 +153,14 @@ while running:
     minusFPSrect = pygame.Rect(365, 587, 20, 20)
     pygame.draw.rect(screen, "white", minusFPSrect, 2, 5)
     screen.blit(defaultFontSmol.render(f"-", antialias=True ,color="white"), (371, 586))
+
+    randomizeRect = pygame.Rect(235, 620, 175, 35)
+    pygame.draw.rect(screen, "white", randomizeRect, 3, 15)
+    screen.blit(defaultFontSmol.render(f"Randomize grid", antialias=True ,color="white"), (245, 627.5))
+
+    clearRect = pygame.Rect(257, 662, 132.5, 35)
+    pygame.draw.rect(screen, "white", clearRect, 3, 15)
+    screen.blit(defaultFontSmol.render(f"Clear grid", antialias=True ,color="white"), (273, 670))
     # flip() the display to put your work on screen
     pygame.display.flip()
     clock.tick(fps)  # limits FPS to 60
