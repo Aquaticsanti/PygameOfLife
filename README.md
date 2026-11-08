@@ -31,7 +31,8 @@ And inside the repository, run
 ```
 pyinstaller PygameOfLife.spec
 ```
-
+# Screenshot
+![Screenshot](screenshot.png)
 # AI Usage
 Slight AI help was required for NumPy and Pygame modules (which I have little to no experience with), as well as with debugging.
 
