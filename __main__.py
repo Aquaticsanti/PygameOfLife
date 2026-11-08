@@ -1,5 +1,7 @@
 import pygame
 import numpy as np
+import sys
+import os
 
 
 # pygame setup
@@ -13,8 +15,8 @@ defaultFontSmol = pygame.font.Font(size=30)
 runningSim = False
 fps = 10
 size = 10
+icon = pygame.image.load(os.path.join(getattr(sys, "_MEIPASS", os.path.abspath(".")), "icon.png"))
 
-icon = pygame.image.load("icon.png")
 pygame.display.set_icon(icon)
 class Cell:
     def __init__(self, state="dead", flipTo=None, rect=None):
